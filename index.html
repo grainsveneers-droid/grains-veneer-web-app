@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Material Studio — Wood & Surfaces</title>
+    <style>
+        :root {
+            --bg: #faf8f5;
+            --text: #1c1917;
+            --accent: #78350f;
+            --card-bg: #ffffff;
+            --border: #e7e5e4;
+        }
+        * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Segoe UI', sans-serif; }
+        body { background: var(--bg); color: var(--text); line-height: 1.6; }
+        
+        /* Header */
+        header {
+            background: var(--card-bg);
+            padding: 1rem 5%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid var(--border);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+        .logo { font-weight: 800; font-size: 1.3rem; letter-spacing: 1px; color: var(--accent); }
+        .quote-btn {
+            background: var(--text);
+            color: white;
+            padding: 0.5rem 1rem;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-weight: 600;
+        }
+
+        /* Hero Section */
+        .hero {
+            padding: 4rem 5%;
+            text-align: center;
+            background: linear-gradient(to bottom, #f5f0eb, var(--bg));
+        }
+        .hero h1 { font-size: 2.5rem; margin-bottom: 1rem; color: var(--text); }
+        .hero p { max-width: 600px; margin: 0 auto 1.5rem; color: #57534e; }
+
+        /* Product Grid */
+        .container { padding: 2rem 5%; max-width: 1200px; margin: auto; }
+        .section-title { font-size: 1.8rem; margin-bottom: 1.5rem; border-bottom: 2px solid var(--accent); display: inline-block; }
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 1.5rem;
+        }
+        .card {
+            background: var(--card-bg);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            overflow: hidden;
+            transition: transform 0.2s;
+        }
+        .card:hover { transform: translateY(-4px); }
+        .card img { width: 100%; height: 180px; object-fit: cover; background: #e5e5e5; }
+        .card-body { padding: 1.2rem; }
+        .card h3 { font-size: 1.2rem; margin-bottom: 0.5rem; }
+        .card p { font-size: 0.9rem; color: #57534e; margin-bottom: 1rem; }
+        .price { font-weight: bold; font-size: 1.1rem; color: var(--accent); margin-bottom: 1rem; }
+        .add-btn {
+            width: 100%;
+            padding: 0.6rem;
+            background: var(--accent);
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-weight: 600;
+        }
+        .add-btn:hover { background: #5c280b; }
+
+        /* Quote Modal */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0,0,0,0.5);
+            justify-content: center;
+            align-items: center;
+            z-index: 200;
+        }
+        .modal-content {
+            background: white;
+            padding: 2rem;
+            border-radius: 8px;
+            width: 90%;
+            max-width: 500px;
+        }
+        .quote-item {
+            display: flex;
+            justify-content: space-between;
+            padding: 0.5rem 0;
+            border-bottom: 1px solid #eee;
+        }
+        .whatsapp-btn {
+            background: #25D366;
+            color: white;
+            width: 100%;
+            padding: 0.8rem;
+            border: none;
+            border-radius: 5px;
+            font-size: 1rem;
+            font-weight: bold;
+            margin-top: 1rem;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <div class="logo">MATERIAL STUDIO</div>
+        <button class="quote-btn" onclick="openModal()">Quote (<span id="cart-count">0</span>)</button>
+    </header>
+
+    <section class="hero">
+        <h1>Materials for Inspired Interiors</h1>
+        <p>Decorative veneers, solid wood fluted panels, and architectural surface finishes.</p>
+    </section>
+
+    <div class="container">
+        <h2 class="section-title">Our Collections</h2>
+        <div class="grid" id="product-grid">
+            <!-- Products JavaScript se load honge -->
+        </div>
+    </div>
+
+    <!-- Quote Modal -->
+    <div class="modal" id="quoteModal">
+        <div class="modal-content">
+            <h2>Your Quote (8'×4' = 32 sq ft/sheet)</h2>
+            <div id="quote-list" style="margin: 1rem 0;"></div>
+            <h3>Estimated Total: ₹<span id="total-price">0</span></h3>
+            <p style="font-size: 0.8rem; color: gray;">*Prices incl. 18% GST. Freight extra.</p>
+            <button class="whatsapp-btn" onclick="sendWhatsApp()">Send Quote on WhatsApp</button>
+            <button onclick="closeModal()" style="margin-top: 10px; width: 100%; padding: 0.5rem; cursor: pointer;">Close</button>
+        </div>
+    </div>
+
+    <script>
+        // Apna WhatsApp Number yaha dalein (91 ke sath)
+        const WHATSAPP_NUMBER = "919876543210";
+
+        // Apne Products yaha add ya edit karein
+        const products = [
+            { id: 1, name: "Solid Wood Fluted Panel", desc: "6 mm solid wood milled into profiles (12 mm total).", price: 1080, img: "https://unsplash.com" },
+            { id: 2, name: "Sleek Line Series", desc: "3 mm veneer milled 2 mm deep on HDHMR base.", price: 590, img: "https://unsplash.com" },
+            { id: 3, name: "Legno Flex Textures", desc: "1 mm hot-stamped tactile textured veneer.", price: 490, img: "https://unsplash.com" },
+            { id: 4, name: "Natural & Dyed Veneers", desc: "Available in 8x4, 10x4, and 12x4 sheet sizes.", price: 130, img: "https://unsplash.com" }
+        ];
+
+        let cart = [];
+
+        // Products ko screen par dikhana
+        const grid = document.getElementById('product-grid');
+        products.forEach(p => {
+            grid.innerHTML += `
+                <div class="card">
+                    <img src="${p.img}" alt="${p.name}">
+                    <div class="card-body">
+                        <h3>${p.name}</h3>
+                        <p>${p.desc}</p>
+                        <div class="price">₹${p.price} / sq ft</div>
+                        <button class="add-btn" onclick="addToQuote(${p.id})">+ Add 1 Sheet (32 sq ft)</button>
+                    </div>
+                </div>
+            `;
+        });
+
+        function addToQuote(id) {
+            const item = products.find(p => p.id === id);
+            cart.push(item);
+            document.getElementById('cart-count').innerText = cart.length;
+            alert(item.name + " (32 sq ft) quote mein add ho gaya!");
+        }
+
+        function openModal() {
+            const list = document.getElementById('quote-list');
+            list.innerHTML = '';
+            let total = 0;
+
+            if(cart.length === 0) {
+                list.innerHTML = '<p>Abhi koi item add nahi kiya gaya hai.</p>';
+            } else {
+                cart.forEach((item, index) => {
+                    const sheetCost = item.price * 32;
+                    total += sheetCost;
+                    list.innerHTML += `
+                        <div class="quote-item">
+                            <span>${item.name} (32 sq ft)</span>
+                            <span>₹${sheetCost} <button onclick="removeItem(${index})" style="color:red; border:none; background:none; cursor:pointer;">[X]</button></span>
+                        </div>
+                    `;
+                });
+            }
+            document.getElementById('total-price').innerText = total.toLocaleString('en-IN');
+            document.getElementById('quoteModal').style.display = 'flex';
+        }
+
+        function closeModal() {
+            document.getElementById('quoteModal').style.display = 'none';
+        }
+
+        function removeItem(index) {
+            cart.splice(index, 1);
+            document.getElementById('cart-count').innerText = cart.length;
+            openModal();
+        }
+
+        function sendWhatsApp() {
+            if(cart.length === 0) return alert("Pehle koi product add karein!");
+            let message = "Hello, mujhe in materials ka quote chahiye:%0A%0A";
+            let total = 0;
+            cart.forEach(item => {
+                const cost = item.price * 32;
+                total += cost;
+                message += `- ${item.name} (1 Sheet / 32 sq ft): ₹${cost}%0A`;
+            });
+            message += `%0A*Estimated Total: ₹${total}*`;
+            window.open(`https://wa.me{WHATSAPP_NUMBER}?text=${message}`, '_blank');
+        }
+    </script>
+</body>
+</html>
