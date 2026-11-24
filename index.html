@@ -1,18 +1,19 @@
 <!DOCTYPE html>
-<html lang="hi">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Material Studio — Wood & Surfaces</title>
+    <title>GRAINS VENEERS INDUSTRIES — Decorative Wood & Surfaces</title>
     <style>
         :root {
             --bg: #faf8f5;
             --text: #1c1917;
             --accent: #78350f;
+            --accent-light: #fef3c7;
             --card-bg: #ffffff;
             --border: #e7e5e4;
         }
-        * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Segoe UI', sans-serif; }
+        * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Segoe UI', system-ui, sans-serif; }
         body { background: var(--bg); color: var(--text); line-height: 1.6; }
         
         /* Header */
@@ -26,8 +27,23 @@
             position: sticky;
             top: 0;
             z-index: 100;
+            flex-wrap: wrap;
+            gap: 10px;
         }
-        .logo { font-weight: 800; font-size: 1.3rem; letter-spacing: 1px; color: var(--accent); }
+        .logo { font-weight: 800; font-size: 1.2rem; letter-spacing: 0.5px; color: var(--accent); }
+        .logo span { display: block; font-size: 0.75rem; color: #57534e; font-weight: 500; }
+        .nav-btns { display: flex; gap: 10px; }
+        .btn-outline {
+            background: transparent;
+            border: 1px solid var(--accent);
+            color: var(--accent);
+            padding: 0.5rem 1rem;
+            border-radius: 5px;
+            cursor: pointer;
+            font-weight: 600;
+            text-decoration: none;
+            font-size: 0.9rem;
+        }
         .quote-btn {
             background: var(--text);
             color: white;
@@ -36,40 +52,82 @@
             border-radius: 5px;
             cursor: pointer;
             font-weight: 600;
+            font-size: 0.9rem;
         }
 
         /* Hero Section */
         .hero {
-            padding: 4rem 5%;
+            padding: 3.5rem 5%;
             text-align: center;
-            background: linear-gradient(to bottom, #f5f0eb, var(--bg));
+            background: linear-gradient(to bottom, #f3ece4, var(--bg));
         }
-        .hero h1 { font-size: 2.5rem; margin-bottom: 1rem; color: var(--text); }
-        .hero p { max-width: 600px; margin: 0 auto 1.5rem; color: #57534e; }
+        .hero h1 { font-size: 2.2rem; margin-bottom: 0.8rem; color: var(--text); }
+        .hero p { max-width: 650px; margin: 0 auto 1.5rem; color: #57534e; }
+
+        /* Container & Headings */
+        .container { padding: 2.5rem 5%; max-width: 1200px; margin: auto; }
+        .section-title { font-size: 1.6rem; margin-bottom: 0.5rem; color: var(--text); }
+        .section-sub { color: #57534e; margin-bottom: 1.5rem; font-size: 0.95rem; }
 
         /* Product Grid */
-        .container { padding: 2rem 5%; max-width: 1200px; margin: auto; }
-        .section-title { font-size: 1.8rem; margin-bottom: 1.5rem; border-bottom: 2px solid var(--accent); display: inline-block; }
         .grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            grid-template-columns: repeat(auto-fit, minmax(290px, 1fr));
             gap: 1.5rem;
         }
         .card {
             background: var(--card-bg);
             border: 1px solid var(--border);
-            border-radius: 8px;
+            border-radius: 10px;
             overflow: hidden;
-            transition: transform 0.2s;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.04);
         }
-        .card:hover { transform: translateY(-4px); }
-        .card img { width: 100%; height: 180px; object-fit: cover; background: #e5e5e5; }
+        .img-wrapper { position: relative; height: 210px; background: #e5e5e5; }
+        .img-wrapper img { width: 100%; height: 100%; object-fit: cover; transition: 0.3s; }
+        .finish-badge {
+            position: absolute;
+            top: 10px;
+            left: 10px;
+            background: rgba(0,0,0,0.75);
+            color: white;
+            padding: 3px 10px;
+            border-radius: 20px;
+            font-size: 0.75rem;
+            font-weight: 600;
+        }
+        .toggle-finish-btn {
+            position: absolute;
+            bottom: 10px;
+            right: 10px;
+            background: white;
+            color: var(--text);
+            border: 1px solid #ccc;
+            padding: 5px 12px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            cursor: pointer;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+        }
+        .toggle-finish-btn:hover { background: var(--accent-light); }
+
         .card-body { padding: 1.2rem; }
-        .card h3 { font-size: 1.2rem; margin-bottom: 0.5rem; }
-        .card p { font-size: 0.9rem; color: #57534e; margin-bottom: 1rem; }
-        .price { font-weight: bold; font-size: 1.1rem; color: var(--accent); margin-bottom: 1rem; }
+        .code-tag {
+            display: inline-block;
+            background: var(--accent-light);
+            color: var(--accent);
+            font-weight: 700;
+            font-size: 0.8rem;
+            padding: 2px 8px;
+            border-radius: 4px;
+            margin-bottom: 0.4rem;
+        }
+        .card h3 { font-size: 1.2rem; margin-bottom: 0.3rem; }
+        .specs { font-size: 0.85rem; color: #57534e; margin-bottom: 0.8rem; }
+        .price { font-weight: 700; font-size: 1.1rem; color: var(--accent); margin-bottom: 0.8rem; }
+        .card-actions { display: flex; gap: 8px; }
         .add-btn {
-            width: 100%;
+            flex: 2;
             padding: 0.6rem;
             background: var(--accent);
             color: white;
@@ -78,14 +136,57 @@
             cursor: pointer;
             font-weight: 600;
         }
-        .add-btn:hover { background: #5c280b; }
+        .try-btn {
+            flex: 1;
+            padding: 0.6rem;
+            background: #f5f5f4;
+            color: var(--text);
+            border: 1px solid var(--border);
+            border-radius: 5px;
+            cursor: pointer;
+            font-weight: 600;
+        }
 
-        /* Quote Modal */
+        /* Try in Space Section */
+        .visualiser-box {
+            background: var(--card-bg);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 2rem;
+            margin-top: 2rem;
+        }
+        .vis-controls {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 15px;
+            margin-bottom: 1.5rem;
+            align-items: center;
+        }
+        .vis-controls input[type="file"], .vis-controls select, .vis-controls button {
+            padding: 0.6rem 1rem;
+            border-radius: 6px;
+            border: 1px solid #ccc;
+            font-size: 0.9rem;
+        }
+        .canvas-container {
+            width: 100%;
+            max-width: 800px;
+            margin: auto;
+            border: 2px dashed #d6d3d1;
+            border-radius: 8px;
+            overflow: hidden;
+            text-align: center;
+            background: #f5f5f4;
+            position: relative;
+        }
+        canvas { max-width: 100%; height: auto; display: block; margin: auto; cursor: crosshair; }
+
+        /* Modal */
         .modal {
             display: none;
             position: fixed;
             top: 0; left: 0; width: 100%; height: 100%;
-            background: rgba(0,0,0,0.5);
+            background: rgba(0,0,0,0.6);
             justify-content: center;
             align-items: center;
             z-index: 200;
@@ -93,15 +194,18 @@
         .modal-content {
             background: white;
             padding: 2rem;
-            border-radius: 8px;
-            width: 90%;
+            border-radius: 10px;
+            width: 92%;
             max-width: 500px;
+            max-height: 90vh;
+            overflow-y: auto;
         }
         .quote-item {
             display: flex;
             justify-content: space-between;
-            padding: 0.5rem 0;
+            padding: 0.6rem 0;
             border-bottom: 1px solid #eee;
+            font-size: 0.95rem;
         }
         .whatsapp-btn {
             background: #25D366;
@@ -109,127 +213,69 @@
             width: 100%;
             padding: 0.8rem;
             border: none;
-            border-radius: 5px;
+            border-radius: 6px;
             font-size: 1rem;
             font-weight: bold;
             margin-top: 1rem;
             cursor: pointer;
+        }
+        footer {
+            background: #1c1917;
+            color: #d6d3d1;
+            text-align: center;
+            padding: 2rem 5%;
+            margin-top: 3rem;
+            font-size: 0.9rem;
         }
     </style>
 </head>
 <body>
 
     <header>
-        <div class="logo">MATERIAL STUDIO</div>
-        <button class="quote-btn" onclick="openModal()">Quote (<span id="cart-count">0</span>)</button>
+        <div class="logo">
+            GRAINS VENEERS INDUSTRIES
+            <span>Decorative Veneers & Architectural Surfaces</span>
+        </div>
+        <div class="nav-btns">
+            <a href="#visualiser" class="btn-outline">Try in Space</a>
+            <button class="quote-btn" onclick="openModal()">Quote (<span id="cart-count">0</span>)</button>
+        </div>
     </header>
 
     <section class="hero">
-        <h1>Materials for Inspired Interiors</h1>
-        <p>Decorative veneers, solid wood fluted panels, and architectural surface finishes.</p>
+        <h1>Crafted Wood Surfaces for Inspired Spaces</h1>
+        <p>Explore our exclusive collection of Natural, Dyed & Exotic Veneers. Compare Raw vs Polished finishes or preview them directly on your furniture.</p>
+        <a href="#collections" class="add-btn" style="text-decoration:none; padding: 0.8rem 1.5rem; display:inline-block;">Browse Veneer Catalog</a>
     </section>
 
-    <div class="container">
-        <h2 class="section-title">Our Collections</h2>
-        <div class="grid" id="product-grid">
-            <!-- Products JavaScript se load honge -->
+    <div class="container" id="collections">
+        <h2 class="section-title">Veneer Collection</h2>
+        <p class="section-sub">Click <b>"Switch to Polished/Raw"</b> on any sheet to compare original vs polished finish.</p>
+        <div class="grid" id="product-grid"></div>
+    </div>
+
+    <!-- Try in Your Space Section -->
+    <div class="container" id="visualiser">
+        <div class="visualiser-box">
+            <h2 class="section-title">Try in Your Space (Live Preview)</h2>
+            <p class="section-sub">1. Upload a photo of your wall, wardrobe, or table. &nbsp;|&nbsp; 2. Select a veneer. &nbsp;|&nbsp; 3. Click corners around the area to apply texture!</p>
+            
+            <div class="vis-controls">
+                <input type="file" id="roomUpload" accept="image/*">
+                <select id="veneerSelect"></select>
+                <button onclick="applyVeneerToArea()" style="background:var(--accent); color:white; border:none; cursor:pointer; font-weight:600;">Apply Veneer</button>
+                <button onclick="resetCanvas()" style="cursor:pointer;">Reset</button>
+            </div>
+
+            <div class="canvas-container">
+                <canvas id="roomCanvas" width="750" height="450"></canvas>
+            </div>
+            <p style="font-size:0.85rem; color:#57534e; margin-top:10px; text-align:center;">
+                Tip: Photo upload karne ke baad jis area (table top, door, wall) par veneer lagana hai uske 4 konon par click karein, fir <b>Apply Veneer</b> dabayein.
+            </p>
         </div>
     </div>
 
     <!-- Quote Modal -->
     <div class="modal" id="quoteModal">
         <div class="modal-content">
-            <h2>Your Quote (8'×4' = 32 sq ft/sheet)</h2>
-            <div id="quote-list" style="margin: 1rem 0;"></div>
-            <h3>Estimated Total: ₹<span id="total-price">0</span></h3>
-            <p style="font-size: 0.8rem; color: gray;">*Prices incl. 18% GST. Freight extra.</p>
-            <button class="whatsapp-btn" onclick="sendWhatsApp()">Send Quote on WhatsApp</button>
-            <button onclick="closeModal()" style="margin-top: 10px; width: 100%; padding: 0.5rem; cursor: pointer;">Close</button>
-        </div>
-    </div>
-
-    <script>
-        // Apna WhatsApp Number yaha dalein (91 ke sath)
-        const WHATSAPP_NUMBER = "919876543210";
-
-        // Apne Products yaha add ya edit karein
-        const products = [
-            { id: 1, name: "Solid Wood Fluted Panel", desc: "6 mm solid wood milled into profiles (12 mm total).", price: 1080, img: "https://unsplash.com" },
-            { id: 2, name: "Sleek Line Series", desc: "3 mm veneer milled 2 mm deep on HDHMR base.", price: 590, img: "https://unsplash.com" },
-            { id: 3, name: "Legno Flex Textures", desc: "1 mm hot-stamped tactile textured veneer.", price: 490, img: "https://unsplash.com" },
-            { id: 4, name: "Natural & Dyed Veneers", desc: "Available in 8x4, 10x4, and 12x4 sheet sizes.", price: 130, img: "https://unsplash.com" }
-        ];
-
-        let cart = [];
-
-        // Products ko screen par dikhana
-        const grid = document.getElementById('product-grid');
-        products.forEach(p => {
-            grid.innerHTML += `
-                <div class="card">
-                    <img src="${p.img}" alt="${p.name}">
-                    <div class="card-body">
-                        <h3>${p.name}</h3>
-                        <p>${p.desc}</p>
-                        <div class="price">₹${p.price} / sq ft</div>
-                        <button class="add-btn" onclick="addToQuote(${p.id})">+ Add 1 Sheet (32 sq ft)</button>
-                    </div>
-                </div>
-            `;
-        });
-
-        function addToQuote(id) {
-            const item = products.find(p => p.id === id);
-            cart.push(item);
-            document.getElementById('cart-count').innerText = cart.length;
-            alert(item.name + " (32 sq ft) quote mein add ho gaya!");
-        }
-
-        function openModal() {
-            const list = document.getElementById('quote-list');
-            list.innerHTML = '';
-            let total = 0;
-
-            if(cart.length === 0) {
-                list.innerHTML = '<p>Abhi koi item add nahi kiya gaya hai.</p>';
-            } else {
-                cart.forEach((item, index) => {
-                    const sheetCost = item.price * 32;
-                    total += sheetCost;
-                    list.innerHTML += `
-                        <div class="quote-item">
-                            <span>${item.name} (32 sq ft)</span>
-                            <span>₹${sheetCost} <button onclick="removeItem(${index})" style="color:red; border:none; background:none; cursor:pointer;">[X]</button></span>
-                        </div>
-                    `;
-                });
-            }
-            document.getElementById('total-price').innerText = total.toLocaleString('en-IN');
-            document.getElementById('quoteModal').style.display = 'flex';
-        }
-
-        function closeModal() {
-            document.getElementById('quoteModal').style.display = 'none';
-        }
-
-        function removeItem(index) {
-            cart.splice(index, 1);
-            document.getElementById('cart-count').innerText = cart.length;
-            openModal();
-        }
-
-        function sendWhatsApp() {
-            if(cart.length === 0) return alert("Pehle koi product add karein!");
-            let message = "Hello, mujhe in materials ka quote chahiye:%0A%0A";
-            let total = 0;
-            cart.forEach(item => {
-                const cost = item.price * 32;
-                total += cost;
-                message += `- ${item.name} (1 Sheet / 32 sq ft): ₹${cost}%0A`;
-            });
-            message += `%0A*Estimated Total: ₹${total}*`;
-            window.open(`https://wa.me{WHATSAPP_NUMBER}?text=${message}`, '_blank');
-        }
-    </script>
-</body>
-</html>
